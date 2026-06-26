@@ -51,7 +51,7 @@ export function Header() {
           <a href={`tel:${SITE.phoneIntl}`} className="hidden [@media(min-width:1400px)]:flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-charcoal hover:text-foreground transition-colors duration-300">
             <Phone className="h-3.5 w-3.5 text-gold" /> {SITE.phone}
           </a>
-          <Link to="/book" className="btn-gold !px-5 !py-3 !text-[11px]">Book Consultation</Link>
+          <Link to="/book" className="btn-gold !px-5 !py-3 !text-[11px] whitespace-nowrap">Book Now</Link>
         </div>
 
 
