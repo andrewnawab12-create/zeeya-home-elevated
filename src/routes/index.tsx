@@ -24,11 +24,31 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
+    const mq = window.matchMedia("(max-width: 767px)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setIsMobile(mq.matches || reduce.matches);
+    update();
+    mq.addEventListener("change", update);
+    reduce.addEventListener("change", update);
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        raf = 0;
+      });
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      mq.removeEventListener("change", update);
+      reduce.removeEventListener("change", update);
+    };
   }, []);
+  const px = (v: number) => (isMobile ? 0 : v);
+
 
   return (
     <>
